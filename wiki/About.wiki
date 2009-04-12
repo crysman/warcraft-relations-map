@@ -1,3 +1,2 @@
 #labels Featured
-== About ==
 See the [http://www.wowwiki.com/Warcraft_relations_map project page] on _wowwiki_.
