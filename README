@@ -1,0 +1,17 @@
+Warcraft relations map
+======================
+current version: 0.2b | 2009-04-03
+original author: crysman (copyleft) 2009
+special thanks to: mikee, machache
+more info: [http://www.wowwiki.com/Warcraft_relations_map]
+
+Project core is written in DOT language with significant use of C preprocessor, and compiled with Graphviz [https://en.wikipedia.org/wiki/Graphviz].
+
+Use of C preprocessor actually makes the sourcecode readable and meaningful. It allows constructions like:
+    "Arthas" -> "King Teranas" [KILLS]
+    where KILLS is defined via #define clausule at the very beginning of the code:
+
+    #define KILLS color="red" label="X" fontcolor="red" fontsize="11" arrowhead="vee" arrowtail="vee"
+    It reminds HTML + CSS coding.
+
+Almost everything is based on Warcraft III: Reign of Chaos manual and Warcraft III: Reign of Chaos and The Frozen Throne games storyline. Some informations were taken here from Wowwiki [http://www.wowwiki.com/Warcraft_relations_map].

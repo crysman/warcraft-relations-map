@@ -1,0 +1,464 @@
+################################################################################
+## Warcraft relations map
+## ======================
+## ver. 0.2b | 2009-04-03
+## Copyright (c)2009 crysman | http://www.wowwiki.com/User:Crysman
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## This hybrid file is supposed to be pre-processed with C preprocessor and then
+## compiled with DOT language compiler Graphviz <http://www.graphviz.org> - see
+## the attached 'compile.sh' script
+################################################################################
+## Special thanks to:
+##
+## * mikee - for help with relations and orienting in the storyline
+## * machache - for his comprehensive programming knowledge
+## * Blizzard Entertainment - for making fantastic games
+################################################################################
+## CHANGELOG:
+##
+## 0.2b - lots of data added
+##      - some mistakes fixed
+##      - clusters added
+##
+## 0.2  - "styles" added via "#define" clausule
+##      - first primitive compile script
+##      - lots of data added
+##
+## 0.1  - Few edges and nodes, all related to humans
+##      - pure DoT language
+################################################################################
+## TODO:
+##
+## - reorganize some nodes/edges to make graph more clearly arranged
+## - fix untrue links, if any
+## - add missing links to Kael'Thas (to Illidan, Kil'Jaeden..)
+## - link POI (Places of Interrest)
+## - ...
+################################################################################
+
+
+###------------- relations ---
+#define LOVE color="deeppink" dir="both" arrowsize="0.8" arrowhead="inv" arrowtail="inv"
+#define LOVES color="deeppink" arrowsize="0.8" arrowhead="inv"
+#define HATE dir="both" color="orange" arrowsize="0.8" arrowhead="diamond" arrowtail="diamond"
+#define HATES color="orange" arrowsize="0.8" arrowhead="diamond"
+#define KILLS color="red" label="X" fontcolor="red" fontsize="11" arrowhead="vee"
+#define KILL color="red" label="X" fontcolor="red" fontsize="11" arrowhead="vee" arrowtail="vee"
+#define FIGHT color="red" label="" fontcolor="red" fontsize="9" arrowhead="vee" dir="both" arrowsize="0.7"
+#define POSSESS fontsize="8" color="purple" arrowsize="0.8"
+#define HOLD fontsize="8" color="purple" arrowsize="0.8" arrowhead="box"
+#define TRANSFORM style="bold,dashed" color="gray10:gray20"
+#define POISON color="green" label="poison" fontsize="9" fontcolor="green"
+#define FATHER arrowhead="ltee" fontsize="8" taillabel="father"
+#define MENTOR arrowhead="rtee" fontsize="8" taillabel="mentor"
+#define SUP arrowhead="onormal" fontsize="8" arrowsize="1.2"
+#define PARENT arrowhead="tee" fontsize="8" arrowsize="1"
+#define FORMER style="dashed"
+#define DEAD image="skull.png" imagescale="false" labelloc="b"
+
+##------------- places and items---
+#define ARTEFACT shape="diamond" width="0.5" fontsize="8" color="purple" fontcolor="purple"
+#define POI shape="doubleoctagon" fontsize="8" color="tan1" fontcolor="tan3"
+
+##------------- races and fractions ---
+#define TITANS     shape="ellipse" color="gold" style="filled" fillcolor="gold" height="0.8" width="1.1"
+#define DRAGONS    shape="ellipse" color="gold3" style="filled" fillcolor="gold3" height="0.8" width="1.1"
+#define ALLIANCE   shape="ellipse" color="blue" style="filled" fillcolor="blue" height="0.8" width="1.1"
+#define FR_ALLI    shape="ellipse" color="blue" style="bold" fontcolor="blue"
+#define HORDE      shape="ellipse" color="olivedrab3" style="filled" fillcolor="olivedrab3" height="0.8" width="1.1"
+#define FR_HORDE   shape="ellipse" color="olivedrab3" style="bold" fontcolor="olivedrab3" fontsize="12x"
+#define FR_HORDE_POISONED shape="ellipse" color="greenyellow" style="bold" fontcolor="olivedrab3" fontsize="12x"
+#define BELVES     shape="ellipse" color="firebrick3" filltcolor="firebrick3" style="filled" fontsize="12x" height="0.8" width="1.1"
+#define HELVES     shape="ellipse" color="deepskyblue4" filltcolor="deepskyblue4" style="filled" fontsize="12x" height="0.8" width="1.1"
+#define NELVES     shape="ellipse" color="darkviolet" filltcolor="darkviolet" style="filled" fontsize="12x" height="0.8" width="1.1"
+#define HIGHBORNES shape="ellipse" color="slateblue4" filltcolor="slateblue4" style="filled" fontsize="12x" height="0.8" width="1.3"
+#define NAGAS      shape="ellipse" color="cyan4" filltcolor="cyan4" style="filled" fontsize="12x" height="0.8" width="1.1"
+#define SCOURGE    shape="ellipse" color="dimgray" style="filled" fillcolor="dimgray" height="0.8" width="1.1"
+#define FORSAKENS  shape="ellipse" color="snow4" style="filled" fillcolor="snow4" height="0.8" width="1.1"
+#define DEMONS     shape="ellipse" color="orangered" style="filled" fillcolor="orangered" height="0.8" width="1.1"
+#define EREDARS    shape="ellipse" color="orangered3" style="bold" fontcolor="orangered3" height="0.8" width="1.1"
+#define DREADLORDS shape="ellipse" color="orangered2" style="bold" fontcolor="orangered2" height="0.8" width="1.1"
+#define PITLORDS   shape="ellipse" color="orangered1" style="bold" fontcolor="orangered1" height="0.8" width="1.1"
+#define DRUIDS     shape="ellipse" color="springgreen4" style="filled"  height="0.8" width="1.1"
+
+##------------- entities ---
+#define TITAN         shape="box"      color="gold"          fontcolor="gold"
+#define DRAGON        shape="box"      color="gold3"         fontcolor="gold3"
+#define HUMAN         shape="box"      color="blue"          fontcolor="blue"
+#define ORC           shape="box"      color="olivedrab3"    fontcolor="olivedrab3"
+#define BELF          shape="box"      color="firebrick3"    fontcolor="firebrick3"
+#define HELF          shape="box"      color="deepskyblue4"  fontcolor="deepskyblue4"
+#define NELF          shape="box"      color="darkviolet"    fontcolor="darkorchid3"
+#define HIGHBORNE     shape="box"      color="slateblue4"    fontcolor="slateblue4"
+#define NAGA          shape="box"      color="cyan4"         fontcolor="cyan4"
+#define UNDEAD        shape="box"      color="dimgray"       fontcolor="dimgray"
+#define FORSAKEN      shape="box"      color="snow4"         fontcolor="snow4"
+#define EREDAR        shape="septagon" color="orangered3"    fontcolor="orangered3"
+#define DREADLORD     shape="octagon"  color="orangered2"    fontcolor="orangered2"
+#define PITLORD       shape="septagon" color="orangered1"    fontcolor="orangered1"
+#define DEMONHYBRID   shape="pentagon" color="slateblue3"    fontcolor="slateblue3"
+#define DRUID         shape="box"      color="springgreen4"  fontcolor="springgreen4"
+
+
+digraph G{
+  //dpi="300"
+  //outputorder="edgessfirst"
+  //maxiter="500"
+
+##------------- legend ---
+  subgraph cluster0 {
+    label="Legend"
+    style="solid"
+    color="wheat3"
+    fontcolor="wheat3"
+    size="2,2"
+    node [fontsize="8", width="0.5"]
+    edge [fontsize="8"]
+    
+    clan_A -> clan_B [FORMER label="former\nbinding" arrowhead="none"]
+    clan_A -> clan_B [FIGHT label="fight"]
+    id_1 [shape="box"]
+    id_2 [shape="box"]
+    id_1 -> id_2 [KILLS label="X\nid_1 kills id_2"]
+    id_1 -> artefact [POSSESS label="possess"]
+    id_1 -> artefact [HOLD label="hold"]
+    artefact [ARTEFACT]
+    id_2 -> id_1 [SUP label="id_2 is superior\nto id_1"]
+    clan_A -> id_2 [PARENT label="id_2 is a member\nof clan A"]
+  }
+
+##------------- Artefacts ---
+  "Frostmourne" [ARTEFACT]
+  "Demon Soul" [ARTEFACT]
+  "Skull Of GulDan" [ARTEFACT label="Skull of\nGul'dan"]
+
+##------------- POI (Places Of Interrest) ---
+  "The Dark Portal" [POI] //XXX leads to Outland (Draenor)
+  "Sargeras' Tomb"  [POI] //XXX
+  "Well Of Eternity" [POI]
+  "Tree Of Life" [POI]
+  "Sunwell" [POI]
+
+##------------- Higher beings ---
+  "Titans" [TITANS]
+  "Dragons" [DRAGONS]
+  "Sargeras" [TITAN]
+  "Demons" [DEMONS]
+  "Eredars" [EREDARS]
+  "Dreadlords" [DREADLORDS]
+  "Pitlords" [PITLORDS]
+  "Alexstrasza" [DRAGON]
+  "Dragons" -> "Alexstrasza" [PARENT]
+  "Titans" -> "Sargeras" [FORMER PARENT]
+
+##------------- Demons ---
+  "Sargeras" -> "Archimonde" [SUP]
+  "Sargeras" -> "KilJaeden" [SUP]
+  "Archimonde" [EREDAR]
+  "Sargeras" -> "Demons" [FORMER FIGHT]
+  "MalGanis" [DREADLORD label="Mal'Ganis"]
+  "Tichondrius" [DREADLORD]
+  "Dreadlords" -> "Tichondrius" [PARENT]
+  "Tichondrius" -> "Dreadlords" [FORMER SUP]
+  "KilJaeden" [EREDAR label="Kil'jaeden"]
+  "Demons" -> "Dreadlords" [PARENT]
+  "Demons" -> "Eredars" [PARENT]
+  "Eredars" -> "KilJaeden" [PARENT]
+  "Eredars" -> "Archimonde" [PARENT]
+  "Dreadlords" -> "MalGanis" [PARENT]
+  "KilJaeden" -> "Dreadlords" [SUP]
+  "Mannoroth" [PITLORD]
+  "Archimonde" -> "Mannoroth" [SUP]
+  "Archimonde" -> "MalGanis" [FORMER SUP]
+  "KilJaeden" -> "Mannoroth" [SUP]
+  "KilJaeden" -> "Lich King" [FORMER SUP]
+  "Mannoroth" -> "Pitlords" [FORMER SUP]
+  "Pitlords" -> "Mannoroth" [PARENT]
+  "Demons" -> "Pitlords" [PARENT]
+
+##------------- Scourge ---
+  "Scourge" [SCOURGE]
+  "Forsaken" [FORSAKENS]
+  "Lich King" [UNDEAD]
+  "Lich King Arthas" [UNDEAD label="Lich King\n(Arthas)"]
+  "Lich King" -> "Scourge" [FORMER SUP]
+  "Lich King Arthas" -> "Scourge" [SUP]
+  "AnubArak" [UNDEAD label="Anub'arak"]
+  "Scourge" -> "AnubArak" [PARENT]
+  "Lich King" -> "AnubArak" [FORMER SUP]
+  "Lich King Arthas" -> "AnubArak" [SUP]
+  "ArthasD" [UNDEAD label="Arthas\n(death knight)"]
+  "KelThuzadD" [UNDEAD label="Kel'Thuzad\n(lich)"]
+  "Scourge" -> "KelThuzadD" [PARENT]
+  "SylvanasD" [UNDEAD label="Sylvanas\n(banshee)"]
+  "SylvanasF" [FORSAKEN label="Sylvanas\n(dark ranger)"]
+  "SylvanasF" -> "Forsaken" [SUP]
+  "Lich King" -> "SylvanasD" [FORMER SUP]
+  "Lich King" -> "ArthasD" [FORMER SUP]
+  "Lich King" -> "KelThuzadD" [FORMER SUP]
+  "Lich King Arthas" -> "KelThuzadD" [SUP] //according to wowwiki
+  "ArthasD" -> "KelThuzadD" [FORMER SUP]
+
+##------------- Humans, Alliance ---
+  "Arthas" [HUMAN label="prince Arthas"]
+  "Jaina" [HUMAN label="Jaina Proudmore"]
+  "Teranas" [HUMAN label="King Teranas"]
+  "Muradin" [HUMAN label="Muradin\nBronzebeard"]
+  "Uther" [HUMAN label="Uther Lightbringer"]
+  "Daelin" [HUMAN label="Daelin Proudmore"]
+  "Antonidas" [HUMAN]
+  "Turalyon" [HUMAN] //XXX achieved to destroy The Dark Portal
+  "Lothar" [HUMAN DEAD]  // XXX killed near Blackrock Spire
+  "Kirin Tor" -> "Khadgar" [PARENT]
+  "Khadgar" [HUMAN]  //XXX
+  "Medivh" [HUMAN]  //XXX
+  "Aegwynn" [HUMAN]
+  "Aegwynn" -> "Medivh" [FATHER taillabel="mother"]
+  "Aegwynn" -> "Sargeras" [FORMER FIGHT]
+  "Sargeras" -> "Medivh" [FORMER POISON]
+  "MedivhP" [HUMAN label="Medivh\n(prophet)"]
+  "Sargeras" -> "Medivh" [FORMER SUP]
+  "Medivh" -> "MedivhP" [TRANSFORM]
+  "Teranas" -> "Turalyon" [FORMER SUP]
+  "Teranas" -> "Lothar" [FORMER SUP]
+  "Turalyon" -> "<other Orc clans>" [FIGHT]
+  "Lothar" -> "<other Orc clans>" [FIGHT]
+  "Medivh" -> "Khadgar" [FORMER MENTOR]
+  "Alliance" [ALLIANCE]
+  "Kirin Tor" [FR_ALLI]
+  "Rhonin" [HUMAN]
+  "KelThuzad" [FORMER HUMAN label="Kel'Thuzad"]
+  "Teranas" -> "Alliance" [SUP FORMER]
+  "Arthas" -> "Jaina" [FORMER LOVE]
+  "Daelin" -> "Jaina" [FATHER]
+  "Antonidas" -> "Jaina" [FORMER MENTOR]
+  "Muradin" -> "Arthas" [FORMER MENTOR]
+  "Uther" -> "Arthas" [FORMER MENTOR]
+  "Uther" -> "Arthas" [SUP FORMER]
+  "Arthas" -> "Muradin" [SUP FORMER]
+  "Teranas" -> "Arthas" [FATHER]
+  "Teranas" -> "Uther" [FORMER SUP]
+  "Antonidas" -> "Kirin Tor" [FORMER SUP]
+  "Rhonin" -> "Kirin Tor" [SUP]
+  "Kirin Tor" -> "KelThuzad" [FORMER PARENT]
+  "Kirin Tor" -> "Jaina" [FORMER PARENT]
+
+##------------- Horde ---
+  "Horde" [HORDE]
+  "Shadowmoon" [FR_HORDE label="Shadowmoon\nClan"]
+  "Dragonmaw" [FR_HORDE label="Dragonmaw\nClan"]
+  "Warsong" [FR_HORDE label="Warsong\nClan"]
+  "Stormreaver" [FR_HORDE label="Stormreaver\nClan"]
+  "Twilight's" [FR_HORDE label="Twilight's Hammer\nClan"]
+  "Frostwolf" [FR_HORDE  label="Frostwolf\nClan"]
+  "Bleeding" [FR_HORDE  label="Bleeding Hollow\nClan"]
+  "Blackrock" [FR_HORDE label="Blackrock\nClan"]
+  "<other Orc clans>" [FR_HORDE_POISONED  label="<other Orc\nclans>"]
+  "Horde" -> "Frostwolf" [PARENT]
+  "<other Orc clans>" -> "Shadowmoon" [PARENT]
+  "<other Orc clans>" -> "Dragonmaw" [PARENT]
+  "<other Orc clans>" -> "Warsong" [PARENT]
+  "<other Orc clans>" -> "Stormreaver" [PARENT]
+  "<other Orc clans>" -> "Twilight's" [PARENT]
+  "<other Orc clans>" -> "NerZhul" [PARENT]
+  "<other Orc clans>" -> "Bleeding" [PARENT]
+  "<other Orc clans>" -> "Blackrock" [PARENT]
+  "Horde" -> "<other Orc clans>" [PARENT]
+  "Mannoroth" -> "<other Orc clans>" [POISON /*minlen="2"*/]
+  "NerZhul" [ORC label="Ner'zhul"]  //XXX opened The Dark portal
+  "NerZhul" -> "Shadowmoon" [FORMER SUP]
+  "NerZhul" -> "GulDan" [FORMER MENTOR]
+  "KilJaeden" -> "NerZhul" [FORMER SUP label="blood pact"]
+  "NerZhul" -> "Lich King" [TRANSFORM]
+  "Orgrim" [ORC label="Orgrim\nDoomhammer"]
+  "Grom" [ORC label="Grom\nHellscream"]
+  "Nekros" [ORC]
+  "Kilrogg" [ORC label="Kilrogg\nDeadeye"]
+  "GulDan" [ORC label="Gul'dan"]
+  "Thrall" [ORC]
+  "Durotan" [ORC]
+  "DrekThar" [ORC label="Drek'Thar"]
+  "Grom" -> "Warsong" [FORMER SUP]
+  "Kilrogg" -> "Bleeding" [FORMER SUP]
+  "Nekros" -> "Dragonmaw" [FORMER SUP]
+  "Nekros" -> "Alexstrasza" [FORMER SUP]
+  "Nekros" -> "Demon Soul" [POSSESS]
+  "Nekros" -> "Demon Soul" [FORMER HOLD]
+  "Demon Soul" -> "Alexstrasza" [FORMER SUP]
+  "Orgrim" -> "GulDan" [FORMER FIGHT]
+  "Orgrim" -> "Horde" [FORMER SUP]
+  "Orgrim" -> "Blackrock" [FORMER SUP]
+  "Thrall" -> "Orgrim" [FORMER SUP]
+  "Thrall" -> "Horde" [SUP]
+  "Orgrim" -> "Thrall" [FORMER MENTOR]
+  "GulDan" -> "Stormreaver" [FORMER SUP]
+  "GulDan" -> "Twilight's" [FORMER SUP]
+  "Blackrock" -> "Stormreaver" [KILLS]
+  "Blackrock" -> "Twilight's" [FIGHT]
+  "Durotan" -> "Thrall" [FATHER]
+  "Durotan" -> "Frostwolf" [FORMER SUP]
+  "DrekThar" -> "Thrall" [MENTOR]
+  "DrekThar" -> "Frostwolf" [SUP]
+
+##------------- Elves ---
+  "Night Elves" [NELVES]
+  "Blood Elves" [BELVES]
+  "High Elves" [HELVES]
+  "Highborne" [HIGHBORNES]
+  "Naga" [NAGAS]
+  "Highborne" -> "Naga" [TRANSFORM label="WoE\ncollapse"]
+  "Highborne" -> "High Elves" [TRANSFORM]
+  "High Elves" -> "Blood Elves" [PARENT]
+  "Night Elves" -> "Highborne" [PARENT]
+  "High Elves" -> "Sylvanas" [PARENT]
+  "Blood Elves" -> "KaelThas" [PARENT]
+  "KaelThas" [BELF label="Kael'thas"]
+  "Azshara" [HIGHBORNE]
+  "Azshara" -> "Highborne" [FORMER SUP]
+  "Sylvanas" [HELF label="Sylvanas\nWindrunner"]
+  "Lady Vashj" [HIGHBORNE]
+  "Highborne" -> "Lady Vashj" [PARENT]
+  "Lady Vashj" [DEAD]
+  "Lady Vashj" -> "Lady VashjN" [TRANSFORM]
+  "Lady VashjN" [NAGA]
+  "Naga" -> "Lady VashjN" [PARENT]
+  "Illidan" [HIGHBORNE label="Illidan Stormrage"]
+  "Highborne" -> "Illidan" [PARENT]
+  "IllidanD" [DEMONHYBRID label="Illidan\n(demon)"]
+  "Illidan" -> "IllidanD" [TRANSFORM]
+  "IllidanD" -> "Naga" [FORMER SUP]
+  "Malfurion" [DRUID label="Malfurion\nStormrage"]
+  "Druids" -> "Malfurion" [PARENT]
+  "Malfurion" -> "Tyrande" [LOVE]
+  "Illidan" -> "Tyrande" [LOVES]
+  "Tyrande" [NELF label="Tyrande\nWhisperwind"]
+  "Maiev" [NELF label="Maiev\nShadowsong"]
+  "Night Elves" -> "Maiev" [PARENT]
+  "Night Elves" -> "Tyrande" [PARENT]
+  "Maiev" -> "Illidan" [FIGHT]
+  "Malfurion" -> "Illidan" [HATE]
+  "Illidan" -> "Malfurion" [FATHER label="brother"]
+  "Druids" [DRUIDS]
+  "Cenarius" [DRUID]
+  "Cenarius" -> "Druids" [FORMER SUP]
+  
+##------------- kills and deaths ---
+  "Arthas" -> "KelThuzad" [KILLS]
+  "KelThuzad" [DEAD]
+  "Arthas" -> "Frostmourne" [POSSESS]
+  "Arthas" -> "Muradin" [KILLS]
+  "Muradin" [DEAD]
+  "Frostmourne" -> "Arthas" [KILLS]
+  "Arthas" [DEAD]
+  "Arthas" -> "ArthasD" [TRANSFORM]
+  "ArthasD" -> "Frostmourne" [HOLD]
+  "Arthas" -> "MalGanis" [KILLS]
+  "MalGanis" [DEAD]
+  "ArthasD" -> "Teranas" [KILLS]
+  "Teranas" [DEAD]
+  "ArthasD" -> "Uther" [KILLS]
+  "Uther" [DEAD]
+  "KelThuzad" -> "KelThuzadD" [TRANSFORM]
+  "ArthasD" -> "Sylvanas" [KILLS]
+  "Sylvanas" [DEAD]
+  "Sylvanas" -> "SylvanasD" [TRANSFORM]
+  "ArthasD" -> "Antonidas" [KILLS]
+  "Antonidas" [DEAD]
+  "Grom" -> "Mannoroth" [KILL]
+  "Grom" [DEAD]
+  "Mannoroth" [DEAD]
+  "Lich King" [DEAD]
+  "Lich King" -> "Lich King Arthas" [TRANSFORM]
+  "ArthasD" [DEAD]
+  "ArthasD" -> "Lich King Arthas" [TRANSFORM]
+  "SylvanasD" [DEAD]
+  "SylvanasD" -> "SylvanasF" [TRANSFORM]
+  "Grom" -> "Cenarius" [KILLS]
+  "Cenarius" [DEAD]
+  "Lothar" -> "Medivh" [KILLS]
+  "Khadgar" -> "Medivh" [KILLS]
+  "Medivh" [DEAD]
+  "KilJaeden" -> "NerZhul" [KILLS]
+  "NerZhul" [DEAD]
+  "Night Elves" -> "Archimonde" [KILLS]
+  "Archimonde" [DEAD]
+  "Skull Of GulDan" -> "Illidan" [KILLS]
+  "Illidan" [DEAD]
+  "IllidanD" -> "Tichondrius" [KILLS]
+  "Tichondrius" [DEAD]
+  "ArthasD" -> "IllidanD" [KILLS]
+  "IllidanD" [DEAD]
+
+##------------- "enableabe" clusters ---
+#ifdef CLUSTERS_DEMONS
+  subgraph cluster1 {
+    style="dashed"
+    label="Demons"
+    color="orangered"
+    fontcolor="orangered"
+    "Demons"; "Eredars"; "Dreadlords"; "MalGanis"; "KilJaeden"; "Archimonde";
+    "Mannoroth"; "Pitlords"; "Tichondrius"
+  }
+#endif
+
+#ifdef CLUSTERS_SCOURGE
+  subgraph cluster2 {
+    label="Scourge";
+    style="dashed";
+    color="dimgray";
+    fontcolor="dimgray"
+    "Scourge"; "Lich King"; "AnubArak"; "ArthasD"; "KelThuzadD"; "SylvanasD";
+    "Lich King Arthas"
+  }
+#endif
+
+#ifdef CLUSTERS_ALLIANCE
+  subgraph cluster3 {
+    label="Alliance";
+    style="dashed";
+    color="blue";
+    fontcolor="blue";
+    "Alliance" "Arthas"; "Teranas"; "Jaina"; "Antonidas"; "KelThuzad"; "Uther"; "Muradin";
+    "Daelin"; "Rhonin"; "Kirin Tor"; "Medivh"; "Lothar"; "Turalyon"; "Khadgar"; "MedivhP";
+    "Aegwynn";
+  }
+#endif
+
+#ifdef CLUSTERS_HORDE
+  subgraph cluster4 {
+    label="Horde";
+    style="dashed";
+    color="olivedrab3";
+    fontcolor="olivedrab3";
+    "Horde"; "NerZhul"; "Shadowmoon"; "<other Orc clans>"; "Orgrim"; "Thrall";
+    "Grom"; "GulDan"; "Shadowmoon"; "Warsong"; "Stormreaver"; "Twilight's";
+    "Frostwolf"; "Bleeding"; "Blackrock"; "Durotan"; "Kilrogg"; "DrekThar";
+    "Dragonmaw"
+  }
+#endif
+
+#ifdef CLUSTERS_ELVES
+  subgraph cluster5 {
+    label="Elves";
+    style="dashed";
+    color="slateblue4";
+    fontcolor="slateblue4";
+    "High Elves"; "Highborne"; "Night Elves"; "Blood Elves";
+    "Maiev"; "Tyrande"; "Malfurion"; "Illidan"; "Azshara"; "Lady Vashj"; "Sylvanas";
+    "KaelThas"
+  }
+#endif
+}
